@@ -1,34 +1,49 @@
-// Package main invokes entrypoint logic for hotspot CLI.
+// hotspot is a CLI tool for tracking and visualizing code hotspots
+// in a Git repository based on change frequency and complexity metrics.
 package main
 
 import (
-	_ "embed"
+	"fmt"
+	"os"
 
-	"github.com/huangsam/hotspot/cmd"
-	"github.com/huangsam/hotspot/internal/iocache"
-	"github.com/huangsam/hotspot/internal/logger"
+	"github.com/spf13/cobra"
 )
 
-//go:embed AGENTS.md
-var agentsDoc string
+var (
+	// Version is set at build time via ldflags
+	Version = "dev"
+	// Commit is set at build time via ldflags
+	Commit = "none"
+	// Date is set at build time via ldflags
+	Date = "unknown"
+)
 
-// main starts the execution of the logic.
 func main() {
-	cmd.AgentsDoc = agentsDoc
-
-	// Set the global caching manager (will be initialized in sharedSetup)
-	cmd.SetCacheManager(iocache.Manager)
-
-	defer func() {
-		// Close caching on exit
-		iocache.CloseCaching()
-
-		if err := cmd.StopProfiling(); err != nil {
-			logger.Fatal("Error stopping profiling", err)
-		}
-	}()
-
-	if err := cmd.Execute(); err != nil {
-		logger.Fatal("Error starting CLI", err)
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
+}
+
+var rootCmd = &cobra.Command{
+	Use:   "hotspot",
+	Short: "Identify hotspots in your Git repository",
+	Long: `hotspot analyzes your Git repository to identify files that change
+frequently and have high complexity — the most risky areas of your codebase.
+
+By combining change frequency with code complexity metrics, hotspot helps
+you prioritize refactoring efforts and technical debt reduction.`,
+	SilenceUsage: true,
+}
+
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Print version information",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("hotspot %s (commit: %s, built: %s)\n", Version, Commit, Date)
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(versionCmd)
 }
