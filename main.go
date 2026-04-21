@@ -34,7 +34,8 @@ frequently and have high complexity — the most risky areas of your codebase.
 By combining change frequency with code complexity metrics, hotspot helps
 you prioritize refactoring efforts and technical debt reduction.
 
-See https://github.com/huangsam/hotspot for the upstream project.`,
+See https://github.com/huangsam/hotspot for the upstream project.
+This is a personal fork for learning and experimentation.`,
 	SilenceUsage: true,
 }
 
