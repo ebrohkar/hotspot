@@ -32,7 +32,9 @@ var rootCmd = &cobra.Command{
 frequently and have high complexity — the most risky areas of your codebase.
 
 By combining change frequency with code complexity metrics, hotspot helps
-you prioritize refactoring efforts and technical debt reduction.`,
+you prioritize refactoring efforts and technical debt reduction.
+
+See https://github.com/huangsam/hotspot for the upstream project.`,
 	SilenceUsage: true,
 }
 
