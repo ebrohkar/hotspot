@@ -47,6 +47,8 @@ var versionCmd = &cobra.Command{
 		// Print a compact one-liner; include fork notice so it's clear this
 		// binary is not the upstream release.
 		fmt.Printf("hotspot %s (commit: %s, built: %s) [personal fork]\n", Version, Commit, Date)
+		// Also print upstream URL for easy reference when sharing output with others
+		fmt.Println("upstream: https://github.com/huangsam/hotspot")
 	},
 }
 
