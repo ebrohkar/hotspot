@@ -59,4 +59,10 @@ func init() {
 		versionCmd.Run(cmd, args)
 		return nil
 	}
+
+	// Exit with a non-zero status code on error so scripts can detect failures
+	// (cobra swallows the exit code by default when SilenceErrors is true)
+	rootCmd.PersistentPostRunE = func(cmd *cobra.Command, args []string) error {
+		return nil
+	}
 }
