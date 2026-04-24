@@ -54,4 +54,9 @@ var versionCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(versionCmd)
+	// Run version info on bare invocation so I don't have to remember the subcommand
+	rootCmd.RunE = func(cmd *cobra.Command, args []string) error {
+		versionCmd.Run(cmd, args)
+		return nil
+	}
 }
