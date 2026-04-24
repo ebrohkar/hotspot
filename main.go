@@ -36,7 +36,8 @@ you prioritize refactoring efforts and technical debt reduction.
 
 See https://github.com/huangsam/hotspot for the upstream project.
 This is a personal fork for learning and experimentation.`,
-	SilenceUsage: true,
+	SilenceUsage:  true,
+	SilenceErrors: true, // handle errors manually in main() for cleaner output
 }
 
 var versionCmd = &cobra.Command{
