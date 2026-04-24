@@ -65,4 +65,8 @@ func init() {
 	rootCmd.PersistentPostRunE = func(cmd *cobra.Command, args []string) error {
 		return nil
 	}
+
+	// Disable the auto-generated completion command — I don't use it and it
+	// clutters the help output when I'm demoing this to others.
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
 }
