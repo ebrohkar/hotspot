@@ -84,7 +84,8 @@ func (s *Scanner) Prune() int {
 }
 
 // List returns a snapshot of all currently tracked access points,
-// sorted by signal strength (strongest first).
+// sorted by signal strength (strongest first). Access points with equal
+// signal strength are sorted alphabetically by SSID as a tiebreaker.
 func (s *Scanner) List() []AccessPoint {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
@@ -95,7 +96,10 @@ func (s *Scanner) List() []AccessPoint {
 	}
 
 	sort.Slice(result, func(i, j int) bool {
-		return result[i].Signal > result[j].Signal
+		if result[i].Signal != result[j].Signal {
+			return result[i].Signal > result[j].Signal
+		}
+		return result[i].SSID < result[j].SSID
 	})
 
 	return result
